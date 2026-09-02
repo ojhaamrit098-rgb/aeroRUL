@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AeroRUL - Dataset &amp; Operations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-high": "#262b2d",
+                        "on-secondary-fixed": "#171c23",
+                        "surface-dim": "#101416",
+                        "surface-container-low": "#181c1e",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#b1b5bf",
+                        "on-primary": "#002f67",
+                        "outline-variant": "#424752",
+                        "background": "#101416",
+                        "surface": "#101416",
+                        "surface-container-lowest": "#0b0f11",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2e3037",
+                        "secondary": "#c2c7d0",
+                        "surface-bright": "#363a3c",
+                        "on-background": "#e0e3e6",
+                        "secondary-container": "#42474f",
+                        "surface-variant": "#313538",
+                        "inverse-surface": "#e0e3e6",
+                        "on-primary-fixed-variant": "#004491",
+                        "tertiary-fixed-dim": "#c4c6cf",
+                        "on-tertiary-fixed-variant": "#44474e",
+                        "tertiary": "#c4c6cf",
+                        "outline": "#8c909e",
+                        "tertiary-container": "#565960",
+                        "on-error": "#690005",
+                        "on-secondary": "#2c3138",
+                        "surface-tint": "#acc7ff",
+                        "primary": "#acc7ff",
+                        "secondary-fixed-dim": "#c2c7d0",
+                        "tertiary-fixed": "#e1e2eb",
+                        "surface-container": "#1c2023",
+                        "on-primary-fixed": "#001a40",
+                        "primary-container": "#0056b3",
+                        "on-tertiary-container": "#ced0d9",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-container-highest": "#313538",
+                        "inverse-primary": "#115cb9",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-secondary-fixed-variant": "#42474f",
+                        "on-surface": "#e0e3e6",
+                        "on-surface-variant": "#c2c6d4",
+                        "on-tertiary-fixed": "#191c22",
+                        "secondary-fixed": "#dee2ec",
+                        "inverse-on-surface": "#2d3133",
+                        "on-primary-container": "#bbd0ff"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "sidebar_width": "240px",
+                        "header_height": "64px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-metric": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "headline-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+                        "code-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+                        "label-caps": ["11px", { lineHeight: "16px", letterSpacing: "0.08em", fontWeight: "600" }],
+                        "display-metric": ["48px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #101416; } /* Fallback */
+        .glass-panel {
+            background: linear-gradient(145deg, rgba(24,28,30,0.8) 0%, rgba(16,20,22,0.9) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(66,71,82,0.5);
+        }
+        .tech-grid {
+            background-size: 24px 24px;
+            background-image: linear-gradient(to right, rgba(66, 71, 82, 0.1) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(66, 71, 82, 0.1) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container tech-grid">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface-dim dark:bg-surface-dim fixed left-0 top-0 h-full w-sidebar_width border-r border-outline-variant dark:border-outline-variant flex flex-col py-md z-50">
+<div class="px-lg mb-xl flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[28px]" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dataset</span>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tight">AeroRUL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Fleet Intelligence</p>
+</div>
+</div>
+<ul class="flex-1 flex flex-col gap-xs px-sm">
+<!-- Navigation Items Logic: 'Dataset' is Active (index 5) -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-md text-body-md">Overview</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">flip_camera_ios</span>
+<span class="font-body-md text-body-md">Engines</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">batch_prediction</span>
+<span class="font-body-md text-body-md">Predictions</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">model_training</span>
+<span class="font-body-md text-body-md">Models</span>
+</a>
+</li>
+<!-- ACTIVE TAB -->
+<li>
+<a class="flex items-center gap-md px-md py-sm text-primary border-l-2 border-primary bg-primary-container/10 active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">database</span>
+<span class="font-body-md text-body-md font-semibold">Dataset</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150 mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface-container-low dark:bg-surface-container-low fixed top-0 right-0 h-header_height z-40 border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-lg w-[calc(100%-240px)] ml-sidebar_width transition-all duration-200">
+<div class="flex items-center gap-md w-1/3">
+<!-- Search omitted based on prompt focus, but JSON says 'on_right', placing actions on right -->
+<div class="h-6 w-1 bg-primary rounded-full"></div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Dataset &amp; Operations</h2>
+</div>
+<div class="flex items-center gap-sm justify-end w-1/3">
+<button aria-label="Notifications" class="p-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button aria-label="Toggle Dark Mode" class="p-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button aria-label="User Account" class="p-sm rounded-DEFAULT text-on-surface-variant hover:bg-surface-variant dark:hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar_width mt-header_height p-lg min-h-[calc(100vh-64px)]">
+<!-- Grid Layout Container -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-[1600px] mx-auto">
+<!-- Section 1: Predictions Workspace (4 Columns) -->
+<section class="col-span-1 md:col-span-4 flex flex-col gap-md">
+<div class="glass-panel rounded-lg flex flex-col h-full">
+<header class="p-md border-b border-outline-variant/30 flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Predictions Workspace</h3>
+<span class="material-symbols-outlined text-secondary text-sm">rocket_launch</span>
+</header>
+<div class="p-md flex-1 flex flex-col gap-lg justify-between">
+<div class="space-y-sm">
+<label class="font-code-sm text-code-sm text-on-surface-variant block">Target Engine Unit</label>
+<div class="relative">
+<select class="w-full bg-surface-dim border border-outline-variant rounded-DEFAULT py-2 pl-3 pr-10 font-code-sm text-code-sm text-on-surface appearance-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all">
+<option value="FD001">FD001 - Fleet Alpha</option>
+<option value="FD002">FD002 - Fleet Beta</option>
+<option value="FD003">FD003 - Fleet Gamma</option>
+<option value="FD004">FD004 - Fleet Delta</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-on-surface-variant pointer-events-none text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="space-y-sm">
+<label class="font-code-sm text-code-sm text-on-surface-variant block">Active Model Pipeline</label>
+<div class="flex flex-col gap-2">
+<label class="flex items-center gap-3 p-3 border border-outline-variant/50 rounded-DEFAULT cursor-pointer hover:bg-surface-container transition-colors bg-surface-container-high/30">
+<input class="form-radio text-primary bg-surface-dim border-outline-variant focus:ring-primary focus:ring-offset-surface" name="model" type="radio" value="baseline"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Baseline (RFR)</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Random Forest Regressor V1.2</span>
+</div>
+</label>
+<label class="flex items-center gap-3 p-3 border border-primary/40 rounded-DEFAULT cursor-pointer bg-primary-container/5 hover:bg-primary-container/10 transition-colors relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<input checked="" class="form-radio text-primary bg-surface-dim border-outline-variant focus:ring-primary focus:ring-offset-surface" name="model" type="radio" value="gru"/>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md font-semibold text-on-surface">Advanced (GRU)</span>
+<span class="font-code-sm text-code-sm text-primary">Gated Recurrent Unit V3.0 • Live</span>
+</div>
+</label>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-fixed text-on-primary font-label-caps text-label-caps uppercase tracking-wider py-3 rounded-DEFAULT transition-all duration-200 flex items-center justify-center gap-2 active:scale-[0.98]">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                            Execute Run
+                        </button>
+</div>
+</div>
+</section>
+<!-- Section 2: Dataset Management (8 Columns) -->
+<section class="col-span-1 md:col-span-8 flex flex-col gap-md">
+<div class="glass-panel rounded-lg flex flex-col h-full">
+<header class="p-md border-b border-outline-variant/30 flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Dataset Management</h3>
+<div class="flex items-center gap-2">
+<span class="h-2 w-2 rounded-full bg-surface-tint animate-pulse"></span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Syncing</span>
+</div>
+</header>
+<div class="p-md flex flex-col gap-md">
+<!-- Drag & Drop Zone -->
+<div class="border-2 border-dashed border-outline-variant/60 hover:border-primary/60 bg-surface-container/30 hover:bg-surface-container/60 transition-all duration-300 rounded-lg p-xl flex flex-col items-center justify-center gap-sm cursor-pointer min-h-[160px] group">
+<div class="p-3 bg-surface-dim rounded-full group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant group-hover:text-primary transition-colors">cloud_upload</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface font-semibold text-center mt-2">Drag and drop telemetry CSV files here</p>
+<p class="font-code-sm text-code-sm text-on-surface-variant text-center">or click to browse local directory</p>
+</div>
+<!-- Data Health Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-sm">
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-DEFAULT p-md flex flex-col justify-between hover:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-[48px]">settings_b_roll</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">Engine Units</span>
+<div class="flex items-end gap-2">
+<span class="font-display-metric text-display-metric text-on-surface">100</span>
+<span class="font-code-sm text-code-sm text-secondary mb-1 pb-1 border-b border-secondary/30">+12 added</span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-DEFAULT p-md flex flex-col justify-between hover:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-[48px]">sensors</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">Sensors Detected</span>
+<div class="flex items-end gap-2">
+<span class="font-display-metric text-display-metric text-on-surface">21</span>
+<span class="font-code-sm text-code-sm text-secondary mb-1 pb-1 border-b border-secondary/30">Active streams</span>
+</div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-DEFAULT p-md flex flex-col justify-between hover:bg-surface-container transition-colors relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-[48px]">history</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-2 block">Total Cycles</span>
+<div class="flex items-end gap-2">
+<span class="font-display-metric text-display-metric text-primary">20.6<span class="text-xl">K</span></span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Analytics (12 Columns) -->
+<section class="col-span-1 md:col-span-12 flex flex-col gap-md">
+<div class="glass-panel rounded-lg flex flex-col">
+<header class="p-md border-b border-outline-variant/30 flex items-center justify-between">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase tracking-widest">Fleet-Wide Analytics</h3>
+<div class="flex gap-2">
+<button class="px-3 py-1 text-code-sm font-code-sm border border-outline-variant rounded hover:bg-surface-variant transition-colors text-on-surface-variant">Export</button>
+<button class="p-1 border border-outline-variant rounded hover:bg-surface-variant transition-colors text-on-surface-variant flex items-center"><span class="material-symbols-outlined text-[16px]">fullscreen</span></button>
+</div>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-outline-variant/30">
+<!-- Chart 1: RMSE Distribution -->
+<div class="bg-surface-container p-md min-h-[300px] flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">RMSE Distribution Over Time</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant">Rolling 30-cycle average</p>
+</div>
+<span class="font-headline-md text-headline-md text-primary">12.4</span>
+</div>
+<!-- Utilizing placeholder for complex data visualization as per constraints -->
+<div class="flex-1 w-full rounded border border-outline-variant/20 overflow-hidden relative group">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen group-hover:opacity-100 transition-opacity duration-500" data-alt="A highly technical data visualization line chart displaying Root Mean Square Error distribution over time. The style is a sleek, modern aerospace telemetry interface in dark mode. The chart lines are sharp, neon cyan and deep blue against a very dark, near-black charcoal background with a subtle, precise grid matrix. It is minimalist, functional, devoid of clutter, resembling high-end mission control analytical software used by engineers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7Hb6E7Q-dovn_0-e0Qkm5PgnUedAan7OA-4lHS1aCKnEPSthjnvHvTDRaxqMqIfiXGxopl17bNuudpm-UTyL28man8rA7fQt8IMQjI6WxqE3tAd0ZSuKLwAfxBWmEGRTajdgVNEQ45it0U26HhE9awcJ0VgENzeX02yXiE1ejzBqeDZRLP57cXO_jjiAfDOzKPClgp5sDJoU52gLuCU_NsxxM-PFbkNfneybVBsEAFkSmdkzmrzHO')"></div>
+<!-- Overlay framing to integrate it visually -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-60"></div>
+</div>
+</div>
+<!-- Chart 2: Error Histograms -->
+<div class="bg-surface-container p-md min-h-[300px] flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h4 class="font-body-md text-body-md font-semibold text-on-surface">Error Histograms</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant">Residual analysis (Baseline vs GRU)</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container block"></span><span class="font-code-sm text-code-sm text-on-surface-variant">RFR</span></div>
+<div class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-primary block"></span><span class="font-code-sm text-code-sm text-on-surface-variant">GRU</span></div>
+</div>
+</div>
+<!-- Utilizing placeholder for complex data visualization -->
+<div class="flex-1 w-full rounded border border-outline-variant/20 overflow-hidden relative group">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-screen group-hover:opacity-100 transition-opacity duration-500" data-alt="A sophisticated histogram data visualization panel in a dark mode technical interface. The vertical bars are rendered in shades of aerospace blue and cool gray, representing error prediction frequencies. The background is a deep, rich black with a faint, precise technical grid structure. The overall aesthetic is professional, mission-critical, and data-dense, suitable for advanced engineering diagnostic tools. It features sharp edges, high contrast, and clean presentation." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCBlOL4iRtyMtkoEzo0QsjTt1PrfnK6bsPRXkKDiV_ZHCjfb0XflFTVnac95-P6bULYSNZmjIXtHboWIPMfqij9UPRF1mzsqkIsFAPQImvtC-K1R8nNw64z8bTJjk-3BqcUlg701U27CJCJtDacgwT1zP6c2WuEcgWdBR7S1ufKdFPNOSYaCwUijbR4--nzE99oS8pcdqS0kNTVWZcCf_ri4_xpUDcyFgvCrCpUDQXWFF9UqH1AKLOP')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent opacity-60"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

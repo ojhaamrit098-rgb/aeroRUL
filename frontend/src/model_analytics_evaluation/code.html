@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Model Performance Comparison - AeroRUL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#262b2d",
+                        "on-secondary-fixed": "#171c23",
+                        "surface-dim": "#101416",
+                        "surface-container-low": "#181c1e",
+                        "error-container": "#93000a",
+                        "on-secondary-container": "#b1b5bf",
+                        "on-primary": "#002f67",
+                        "outline-variant": "#424752",
+                        "background": "#101416",
+                        "surface": "#101416",
+                        "surface-container-lowest": "#0b0f11",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#2e3037",
+                        "secondary": "#c2c7d0",
+                        "surface-bright": "#363a3c",
+                        "on-background": "#e0e3e6",
+                        "secondary-container": "#42474f",
+                        "surface-variant": "#313538",
+                        "inverse-surface": "#e0e3e6",
+                        "on-primary-fixed-variant": "#004491",
+                        "tertiary-fixed-dim": "#c4c6cf",
+                        "on-tertiary-fixed-variant": "#44474e",
+                        "tertiary": "#c4c6cf",
+                        "outline": "#8c909e",
+                        "tertiary-container": "#565960",
+                        "on-error": "#690005",
+                        "on-secondary": "#2c3138",
+                        "surface-tint": "#acc7ff",
+                        "primary": "#acc7ff",
+                        "secondary-fixed-dim": "#c2c7d0",
+                        "tertiary-fixed": "#e1e2eb",
+                        "surface-container": "#1c2023",
+                        "on-primary-fixed": "#001a40",
+                        "primary-container": "#0056b3",
+                        "on-tertiary-container": "#ced0d9",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-container-highest": "#313538",
+                        "inverse-primary": "#115cb9",
+                        "primary-fixed-dim": "#acc7ff",
+                        "on-secondary-fixed-variant": "#42474f",
+                        "on-surface": "#e0e3e6",
+                        "on-surface-variant": "#c2c6d4",
+                        "on-tertiary-fixed": "#191c22",
+                        "secondary-fixed": "#dee2ec",
+                        "inverse-on-surface": "#2d3133",
+                        "on-primary-container": "#bbd0ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sidebar_width": "240px",
+                        "header_height": "64px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "md": "16px",
+                        "gutter": "16px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "code-sm": ["JetBrains Mono"],
+                        "label-caps": ["JetBrains Mono"],
+                        "display-metric": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "600" }],
+                        "display-metric": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-surface');
+        }
+        .grid-bg {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .chart-grid {
+            background-image: 
+                linear-gradient(to right, theme('colors.outline-variant') 1px, transparent 1px),
+                linear-gradient(to bottom, theme('colors.outline-variant') 1px, transparent 1px);
+            background-size: 10% 10%;
+            background-position: 0 0;
+        }
+    </style>
+</head>
+<body class="bg-surface-dim font-body-md text-body-md text-on-surface antialiased overflow-x-hidden min-h-screen flex flex-col md:flex-row">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-full py-md bg-surface-dim border-r border-outline-variant fixed left-0 top-0 h-full w-sidebar_width z-50 flat no shadows">
+<div class="px-lg mb-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">AeroRUL</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant uppercase mt-1 tracking-wider">Fleet Intelligence</p>
+</div>
+<ul class="flex flex-col gap-sm px-sm flex-1">
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="propulsion_unit">flip_camera_ios</span>
+<span>Engines</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+<span>Predictions</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-primary border-l-2 border-primary bg-primary-container/10 hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+<span>Models</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span>Dataset</span>
+</a>
+</li>
+<li class="mt-auto">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- TopNavBar -->
+<header class="hidden md:flex items-center justify-between px-lg w-[calc(100%-240px)] ml-sidebar_width bg-surface-container-low fixed top-0 right-0 h-header_height z-40 border-b border-outline-variant flat no shadows transition-all duration-200">
+<div class="flex items-center gap-md">
+<!-- Left side actions or breadcrumbs could go here if needed, but keeping it clean per JSON -->
+</div>
+<div class="flex items-center gap-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-variant border-none rounded-DEFAULT pl-xl pr-sm py-xs text-body-md font-body-md text-on-surface placeholder-on-surface-variant focus:ring-1 focus:ring-primary w-64 outline-none" placeholder="Search telemetry..." type="text"/>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-sm rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-sm rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-sm rounded-full hover:bg-surface-variant">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full md:ml-sidebar_width mt-0 md:mt-header_height p-lg md:p-xl flex flex-col gap-xl">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-outline-variant pb-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Model Performance</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Comparing Baseline Regression vs Sequence (GRU/LSTM) Architectures</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-md py-xs border border-outline text-on-surface rounded-DEFAULT font-label-caps text-label-caps hover:bg-surface-variant transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-sm">download</span> Export Report
+                </button>
+</div>
+</header>
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md">
+<!-- Baseline RMSE -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden group">
+<div class="absolute inset-0 grid-bg opacity-10"></div>
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Baseline RMSE</span>
+<span class="material-symbols-outlined text-outline-variant">show_chart</span>
+</div>
+<div class="relative z-10">
+<div class="font-display-metric text-display-metric text-on-surface">24.5</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-xs">Cycles</div>
+</div>
+</div>
+<!-- Sequence RMSE -->
+<div class="bg-surface-container-low border-l-2 border-l-primary border-y border-r border-y-outline-variant border-r-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/5"></div>
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-primary uppercase font-bold">Sequence RMSE</span>
+<span class="material-symbols-outlined text-primary">ssid_chart</span>
+</div>
+<div class="relative z-10 flex items-end gap-sm">
+<div class="font-display-metric text-display-metric text-primary">18.2</div>
+<div class="flex items-center text-secondary font-label-caps text-label-caps mb-2">
+<span class="material-symbols-outlined text-sm mr-xs">arrow_downward</span> 25.7% Imp.
+                    </div>
+</div>
+</div>
+<!-- MAE Diff -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">MAE Difference</span>
+<span class="material-symbols-outlined text-outline-variant">difference</span>
+</div>
+<div class="relative z-10">
+<div class="font-display-metric text-display-metric text-on-surface">4.1</div>
+<div class="font-body-md text-body-md text-on-surface-variant mt-xs">Cycles</div>
+</div>
+</div>
+<!-- R2 Score -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-md flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="relative z-10 flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Sequence R² Score</span>
+<span class="material-symbols-outlined text-outline-variant">speed</span>
+</div>
+<div class="relative z-10 flex items-end gap-sm">
+<div class="font-display-metric text-display-metric text-on-surface">0.89</div>
+<div class="font-body-md text-body-md text-on-surface-variant mb-2">vs 0.72</div>
+</div>
+</div>
+</div>
+<!-- Main Chart & Explanation Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg h-[600px]">
+<!-- Scatter Plot Panel (Spans 2 columns on desktop) -->
+<div class="lg:col-span-2 bg-surface-container-low border border-outline-variant rounded-xl flex flex-col relative h-full">
+<div class="p-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50 rounded-t-xl z-10">
+<h3 class="font-label-caps text-label-caps text-on-surface uppercase">Predicted vs Actual RUL (Test Set)</h3>
+<div class="flex gap-md font-label-caps text-label-caps">
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+<span class="text-on-surface-variant">Baseline</span>
+</div>
+<div class="flex items-center gap-xs">
+<div class="w-3 h-3 rounded-full bg-primary shadow-[0_0_8px_rgba(172,199,255,0.5)]"></div>
+<span class="text-primary">Sequence</span>
+</div>
+</div>
+</div>
+<div class="flex-1 p-lg relative chart-grid m-md border border-outline-variant/30 rounded-DEFAULT overflow-hidden">
+<!-- Diagonal Reference Line -->
+<div class="absolute bottom-0 left-0 w-[141%] h-px bg-outline-variant/50 transform -rotate-45 origin-bottom-left border-dashed"></div>
+<span class="absolute right-4 top-4 font-code-sm text-code-sm text-outline-variant rotate-45">Perfect Prediction</span>
+<!-- Axes Labels -->
+<div class="absolute bottom-2 left-1/2 -translate-x-1/2 font-label-caps text-label-caps text-on-surface-variant">Actual RUL (Cycles)</div>
+<div class="absolute left-2 top-1/2 -translate-y-1/2 -rotate-90 origin-center font-label-caps text-label-caps text-on-surface-variant">Predicted RUL</div>
+<!-- Simulated Scatter Points -->
+<div class="absolute inset-0 p-8 w-full h-full" id="scatter-container">
+<!-- Points will be generated via JS to look somewhat realistic around the diagonal -->
+</div>
+</div>
+</div>
+<!-- Conceptual Explanation Panel -->
+<div class="bg-surface-container-low border border-outline-variant rounded-xl flex flex-col h-full overflow-hidden">
+<div class="p-md border-b border-outline-variant bg-surface-container-low/50">
+<h3 class="font-label-caps text-label-caps text-primary uppercase font-bold flex items-center gap-sm">
+<span class="material-symbols-outlined text-sm">memory</span>
+                        Why Sequence Models Matter
+                    </h3>
+</div>
+<div class="flex-1 p-md flex flex-col gap-md overflow-y-auto">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        Traditional regression treats each time step as an isolated snapshot. Sequence models (GRU/LSTM) maintain a hidden state, allowing them to learn temporal degradation patterns across multiple cycles.
+                    </p>
+<!-- Visual Diagram -->
+<div class="relative mt-md bg-surface border border-outline-variant/50 rounded-lg p-sm">
+<div class="flex justify-between items-center mb-4">
+<span class="font-code-sm text-code-sm text-on-surface-variant">t-2</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">t-1</span>
+<span class="font-code-sm text-code-sm text-primary font-bold">t (Current)</span>
+</div>
+<div class="relative h-24">
+<!-- Timeline Line -->
+<div class="absolute top-1/2 left-4 right-4 h-px bg-outline-variant -translate-y-1/2"></div>
+<!-- Nodes -->
+<div class="absolute top-1/2 left-4 -translate-y-1/2 flex flex-col items-center gap-2 group">
+<div class="w-6 h-6 rounded border border-outline-variant bg-surface-container-high flex items-center justify-center font-code-sm text-[10px] text-on-surface-variant transition-colors group-hover:border-primary">X</div>
+<div class="w-px h-6 bg-outline-variant border-dashed border-l"></div>
+<div class="w-6 h-6 rounded-full border border-outline-variant bg-surface-container-high transition-colors group-hover:border-primary"></div>
+</div>
+<!-- Flow arrows -->
+<div class="absolute top-[65%] left-10 right-1/2 h-px bg-outline border-dashed -translate-y-1/2 flex items-center justify-end pr-1 opacity-50">
+<span class="material-symbols-outlined text-[10px] text-outline leading-none absolute -right-1">arrow_forward_ios</span>
+</div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2 group">
+<div class="w-6 h-6 rounded border border-outline-variant bg-surface-container-high flex items-center justify-center font-code-sm text-[10px] text-on-surface-variant transition-colors group-hover:border-primary">X</div>
+<div class="w-px h-6 bg-outline-variant border-dashed border-l"></div>
+<div class="w-6 h-6 rounded-full border border-outline-variant bg-surface-container-high transition-colors group-hover:border-primary"></div>
+</div>
+<div class="absolute top-[65%] left-1/2 right-4 h-px bg-primary border-dashed -translate-y-1/2 flex items-center justify-end pr-1 opacity-75">
+<span class="material-symbols-outlined text-[10px] text-primary leading-none absolute -right-1">arrow_forward_ios</span>
+</div>
+<div class="absolute top-1/2 right-4 -translate-y-1/2 flex flex-col items-center gap-2">
+<div class="w-6 h-6 rounded border border-primary bg-primary-container/20 flex items-center justify-center font-code-sm text-[10px] text-primary shadow-[0_0_8px_rgba(172,199,255,0.3)]">X</div>
+<div class="w-px h-6 bg-primary border-dashed border-l"></div>
+<div class="w-6 h-6 rounded-full border-2 border-primary bg-primary-container/50 shadow-[0_0_8px_rgba(172,199,255,0.5)]"></div>
+</div>
+</div>
+<div class="mt-4 flex justify-between items-center text-center px-4">
+<span class="font-label-caps text-[9px] text-outline-variant uppercase">Past Context</span>
+<span class="font-label-caps text-[9px] text-primary uppercase">Hidden State Memory</span>
+</div>
+</div>
+<div class="mt-auto space-y-sm border-t border-outline-variant/30 pt-md">
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">Non-linear Degradation</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-xs">Captures exponential wear late in lifecycle.</p>
+</div>
+</div>
+<div class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-primary text-sm mt-1">check_circle</span>
+<div>
+<h4 class="font-label-caps text-label-caps text-on-surface">Noise Resilience</h4>
+<p class="font-code-sm text-code-sm text-on-surface-variant mt-xs">Smoothing erratic single-sensor spikes over time.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Script for rendering scatter plot points -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('scatter-container');
+            const numPoints = 150;
+            
+            // Function to generate a point
+            function createPoint(isBaseline) {
+                const actual = Math.random() * 100; // 0 to 100% of chart
+                
+                // Baseline has more variance (higher RMSE)
+                const variance = isBaseline ? 15 : 5;
+                const error = (Math.random() - 0.5) * variance * 2;
+                
+                // Add systematic error for baseline at low RUL (late life degradation often missed by linear models)
+                let predicted = actual + error;
+                if (isBaseline && actual < 20) {
+                    predicted += (20 - actual) * 0.5; // Overpredicts RUL at end of life
+                }
+
+                // Constrain to chart bounds
+                predicted = Math.max(0, Math.min(100, predicted));
+                actualConstrained = Math.max(0, Math.min(100, actual));
+
+                const point = document.createElement('div');
+                point.className = `absolute rounded-full w-2 h-2 -translate-x-1/2 translate-y-1/2 transition-all duration-500 hover:scale-150`;
+                
+                if (isBaseline) {
+                    point.classList.add('bg-outline-variant', 'opacity-50');
+                } else {
+                    point.classList.add('bg-primary', 'shadow-[0_0_4px_rgba(172,199,255,0.8)]', 'opacity-80', 'z-10');
+                }
+
+                // Positioning: Left is actual (X axis), Bottom is predicted (Y axis)
+                point.style.left = `${actualConstrained}%`;
+                point.style.bottom = `${predicted}%`;
+                
+                // Add simple tooltip data
+                point.title = `Actual: ${Math.round(actualConstrained*3)} | Pred: ${Math.round(predicted*3)}`;
+
+                return point;
+            }
+
+            // Generate points
+            for (let i = 0; i < numPoints; i++) {
+                container.appendChild(createPoint(true));  // Baseline
+                container.appendChild(createPoint(false)); // Sequence
+            }
+        });
+    </script>
+</body></html>

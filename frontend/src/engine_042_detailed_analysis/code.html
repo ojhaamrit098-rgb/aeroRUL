@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Engine 042 Details - AeroRUL</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#262b2d",
+                      "on-secondary-fixed": "#171c23",
+                      "surface-dim": "#101416",
+                      "surface-container-low": "#181c1e",
+                      "error-container": "#93000a",
+                      "on-secondary-container": "#b1b5bf",
+                      "on-primary": "#002f67",
+                      "outline-variant": "#424752",
+                      "background": "#101416",
+                      "surface": "#101416",
+                      "surface-container-lowest": "#0b0f11",
+                      "error": "#ffb4ab",
+                      "on-tertiary": "#2e3037",
+                      "secondary": "#c2c7d0",
+                      "surface-bright": "#363a3c",
+                      "on-background": "#e0e3e6",
+                      "secondary-container": "#42474f",
+                      "surface-variant": "#313538",
+                      "inverse-surface": "#e0e3e6",
+                      "on-primary-fixed-variant": "#004491",
+                      "tertiary-fixed-dim": "#c4c6cf",
+                      "on-tertiary-fixed-variant": "#44474e",
+                      "tertiary": "#c4c6cf",
+                      "outline": "#8c909e",
+                      "tertiary-container": "#565960",
+                      "on-error": "#690005",
+                      "on-secondary": "#2c3138",
+                      "surface-tint": "#acc7ff",
+                      "primary": "#acc7ff",
+                      "secondary-fixed-dim": "#c2c7d0",
+                      "tertiary-fixed": "#e1e2eb",
+                      "surface-container": "#1c2023",
+                      "on-primary-fixed": "#001a40",
+                      "primary-container": "#0056b3",
+                      "on-tertiary-container": "#ced0d9",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#d7e2ff",
+                      "surface-container-highest": "#313538",
+                      "inverse-primary": "#115cb9",
+                      "primary-fixed-dim": "#acc7ff",
+                      "on-secondary-fixed-variant": "#42474f",
+                      "on-surface": "#e0e3e6",
+                      "on-surface-variant": "#c2c6d4",
+                      "on-tertiary-fixed": "#191c22",
+                      "secondary-fixed": "#dee2ec",
+                      "inverse-on-surface": "#2d3133",
+                      "on-primary-container": "#bbd0ff",
+                      "healthy": "#10b981",
+                      "degraded": "#f59e0b",
+                      "critical": "#ef4444"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sidebar_width": "240px",
+                      "header_height": "64px",
+                      "lg": "24px",
+                      "base": "4px",
+                      "md": "16px",
+                      "gutter": "16px",
+                      "xl": "32px",
+                      "xs": "4px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "code-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "display-metric": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-lg-mobile": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "code-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.08em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-metric": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.1",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
+        }
+
+        .data-card {
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chart-grid {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* SVG Graph Styles */
+        .chart-line {
+            fill: none;
+            stroke-width: 1.5;
+            vector-effect: non-scaling-stroke;
+        }
+        
+        .predict-flow {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md h-screen w-screen overflow-hidden flex">
+<!-- SideNavBar -->
+<nav class="bg-surface-dim dark:bg-surface-dim fixed left-0 top-0 h-full w-sidebar_width border-r border-outline-variant dark:border-outline-variant flex flex-col h-full py-md z-50">
+<!-- Brand -->
+<div class="px-lg pb-md flex flex-col gap-xs border-b border-outline-variant mb-sm">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-2xl fill" data-icon="propulsion_unit" data-weight="fill">flip_camera_ios</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">AeroRUL</span>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Fleet Intelligence</span>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-xs px-sm flex-1">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-primary border-l-2 border-primary bg-primary-container/10" href="#">
+<span class="material-symbols-outlined fill" data-icon="propulsion_unit" data-weight="fill">flip_camera_ios</span>
+<span>Engines</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="batch_prediction">batch_prediction</span>
+<span>Predictions</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span>Analytics</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="model_training">model_training</span>
+<span>Models</span>
+</a>
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span>Dataset</span>
+</a>
+</div>
+<!-- Bottom Settings -->
+<div class="px-sm mt-auto pt-sm border-t border-outline-variant">
+<a class="flex items-center gap-sm px-md py-sm rounded-lg hover:bg-surface-container-high transition-colors active:scale-95 duration-150 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="bg-surface-container-low dark:bg-surface-container-low fixed top-0 right-0 h-header_height z-40 border-b border-outline-variant dark:border-outline-variant flex items-center justify-between px-lg w-[calc(100%-240px)] ml-sidebar_width">
+<!-- Breadcrumbs / Context -->
+<div class="flex items-center gap-sm text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Engines</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-surface font-headline-md text-headline-md">Engine 042</span>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-md text-on-surface-variant">
+<button class="hover:bg-surface-variant dark:hover:bg-surface-variant p-sm rounded-full transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-variant dark:hover:bg-surface-variant p-sm rounded-full transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="hover:bg-surface-variant dark:hover:bg-surface-variant p-sm rounded-full transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar_width mt-header_height w-[calc(100%-240px)] h-[calc(100vh-64px)] overflow-y-auto bg-surface p-lg">
+<!-- Header Info Bar -->
+<div class="flex items-center justify-between mb-lg bg-surface-container-lowest p-md border border-outline-variant rounded">
+<div class="flex items-center gap-xl">
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-xs">UNIT ID</div>
+<div class="font-headline-md text-headline-md text-on-surface">Engine 042</div>
+</div>
+<div class="w-px h-8 bg-outline-variant"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-xs">STATUS</div>
+<div class="flex items-center gap-sm">
+<div class="w-2 h-2 rounded-full bg-healthy pulse-dot"></div>
+<span class="text-healthy font-semibold">Healthy</span>
+</div>
+</div>
+<div class="w-px h-8 bg-outline-variant"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-xs">CURRENT CYCLE</div>
+<div class="font-code-sm text-code-sm text-on-surface">218</div>
+</div>
+<div class="w-px h-8 bg-outline-variant"></div>
+<div>
+<div class="font-label-caps text-label-caps text-on-surface-variant mb-xs">MODEL</div>
+<div class="font-code-sm text-code-sm text-on-surface">GRU-Ensemble_v2</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded hover:bg-primary-fixed transition-colors font-semibold flex items-center gap-sm active:scale-95" id="runPredictionBtn">
+<span class="material-symbols-outlined text-sm" data-icon="play_arrow">play_arrow</span>
+                RUN PREDICTION
+            </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Hero RUL Card (Col Span 4) -->
+<div class="col-span-4 bg-surface-container-low data-card rounded p-md flex flex-col justify-between relative overflow-hidden">
+<!-- Decorative background grid -->
+<div class="absolute inset-0 chart-grid opacity-20 pointer-events-none"></div>
+<div class="relative z-10 border-b border-outline-variant pb-sm mb-md flex justify-between items-start">
+<span class="font-label-caps text-label-caps text-on-surface-variant">REMAINING USEFUL LIFE</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">info</span>
+</div>
+<div class="relative z-10 flex-1 flex flex-col justify-center items-center py-xl">
+<div class="flex items-baseline gap-sm">
+<span class="font-display-metric text-display-metric text-primary" id="rulNumber">--</span>
+<span class="text-primary font-headline-md text-headline-md">CYCLES</span>
+</div>
+<div class="mt-sm font-code-sm text-code-sm text-on-surface-variant h-4" id="predictionStatus">
+                        Awaiting prediction run...
+                    </div>
+</div>
+<!-- Prediction Progress Bar (Hidden initially) -->
+<div class="relative z-10 w-full h-1 bg-surface-variant rounded-full overflow-hidden mt-md hidden" id="predictionProgress">
+<div class="h-full bg-primary w-0 transition-all duration-300 ease-out" id="progressBarFill"></div>
+</div>
+</div>
+<!-- Lifecycle Timeline (Col Span 8) -->
+<div class="col-span-8 bg-surface-container-low data-card rounded p-md flex flex-col">
+<div class="border-b border-outline-variant pb-sm mb-md flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">ENGINE DIGITAL TIMELINE</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Max Lifecycle ~300</span>
+</div>
+<div class="flex-1 flex items-center justify-center relative px-xl w-full pt-lg">
+<!-- Timeline Track -->
+<div class="absolute w-[calc(100%-4rem)] h-px bg-outline-variant top-1/2 -translate-y-1/2 z-0"></div>
+<div class="absolute w-[60%] h-1 bg-healthy/30 top-1/2 -translate-y-1/2 left-8 z-0"></div>
+<div class="absolute w-[20%] h-1 bg-primary/40 top-1/2 -translate-y-1/2 left-[calc(60%+2rem)] z-0"></div>
+<!-- Nodes -->
+<div class="w-full flex justify-between relative z-10 items-center">
+<div class="flex flex-col items-center gap-sm group">
+<div class="w-4 h-4 rounded-full bg-healthy border-2 border-surface"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">COMMISSIONED</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Cyc 0</span>
+</div>
+<div class="flex flex-col items-center gap-sm group">
+<div class="w-4 h-4 rounded-full bg-healthy border-2 border-surface"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">STABLE OPs</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Cyc 150</span>
+</div>
+<div class="flex flex-col items-center gap-sm group relative">
+<div class="w-6 h-6 rounded-full bg-primary border-4 border-surface pulse-dot absolute -top-1"></div>
+<div class="w-4 h-4 rounded-full bg-primary border-2 border-surface relative z-10 mt-1"></div>
+<span class="font-label-caps text-label-caps text-primary mt-2">CURRENT</span>
+<span class="font-code-sm text-code-sm text-primary">Cyc 218</span>
+</div>
+<div class="flex flex-col items-center gap-sm group opacity-50">
+<div class="w-4 h-4 rounded-full bg-surface-variant border-2 border-outline-variant"></div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">EST. FAILURE</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">Cyc 265</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Sensor Telemetry (Col Span 6) -->
+<div class="col-span-6 bg-surface-container-low data-card rounded p-md flex flex-col h-64">
+<div class="border-b border-outline-variant pb-sm mb-md flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SENSOR TELEMETRY (NORMALIZED)</span>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant"><div class="w-2 h-2 bg-error"></div> Temp</span>
+<span class="flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant"><div class="w-2 h-2 bg-secondary"></div> Press</span>
+<span class="flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant"><div class="w-2 h-2 bg-[#8b5cf6]"></div> Speed</span>
+</div>
+</div>
+<div class="flex-1 w-full h-full relative chart-grid border-l border-b border-outline-variant">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Temp Line -->
+<path class="chart-line stroke-error" d="M 0,50 Q 20,48 40,55 T 80,40 T 100,20"></path>
+<!-- Pressure Line -->
+<path class="chart-line stroke-secondary" d="M 0,60 Q 30,58 50,65 T 90,50 T 100,45"></path>
+<!-- Speed Line -->
+<path class="chart-line stroke-[#8b5cf6]" d="M 0,40 Q 25,45 45,35 T 75,45 T 100,30"></path>
+<!-- Current cycle indicator -->
+<line class="stroke-primary" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1" x1="80" x2="80" y1="0" y2="100"></line>
+</svg>
+<!-- Y Axis Labels -->
+<div class="absolute -left-6 top-0 font-code-sm text-code-sm text-on-surface-variant">1.0</div>
+<div class="absolute -left-6 bottom-0 font-code-sm text-code-sm text-on-surface-variant">0.0</div>
+</div>
+</div>
+<!-- RUL Degradation Graph (Col Span 6) -->
+<div class="col-span-6 bg-surface-container-low data-card rounded p-md flex flex-col h-64">
+<div class="border-b border-outline-variant pb-sm mb-md flex justify-between items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">RUL DEGRADATION CURVE</span>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant"><div class="w-3 h-1 bg-secondary"></div> Actual</span>
+<span class="flex items-center gap-xs font-code-sm text-code-sm text-on-surface-variant"><div class="w-3 h-1 bg-primary border-t border-dashed"></div> Predicted</span>
+</div>
+</div>
+<div class="flex-1 w-full h-full relative chart-grid border-l border-b border-outline-variant">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Actual RUL (Linear descent roughly) -->
+<path class="chart-line stroke-secondary" d="M 0,10 L 80,75"></path>
+<!-- Predicted RUL (Curve starting from current point) -->
+<path class="chart-line stroke-primary opacity-0 transition-opacity duration-500" d="M 80,75 Q 90,85 100,95" id="predictedLine" stroke-dasharray="4,4"></path>
+<!-- Current cycle indicator -->
+<line class="stroke-primary" stroke="currentColor" stroke-dasharray="2,2" stroke-width="1" x1="80" x2="80" y1="0" y2="100"></line>
+</svg>
+<!-- Y Axis Labels -->
+<div class="absolute -left-8 top-0 font-code-sm text-code-sm text-on-surface-variant">300</div>
+<div class="absolute -left-4 bottom-0 font-code-sm text-code-sm text-on-surface-variant">0</div>
+<!-- X Axis -->
+<div class="absolute right-0 -bottom-6 font-code-sm text-code-sm text-on-surface-variant">Cycles</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('runPredictionBtn');
+            const statusText = document.getElementById('predictionStatus');
+            const rulNumber = document.getElementById('rulNumber');
+            const progressContainer = document.getElementById('predictionProgress');
+            const progressFill = document.getElementById('progressBarFill');
+            const predictedLine = document.getElementById('predictedLine');
+            
+            let isRunning = false;
+
+            const targetRul = 47;
+            const steps = [
+                { msg: 'Loading sensor sequence...', time: 800, progress: 20 },
+                { msg: 'Preprocessing data...', time: 1000, progress: 40 },
+                { msg: 'Analyzing telemetry...', time: 1200, progress: 60 },
+                { msg: 'Running GRU Model...', time: 1500, progress: 80 },
+                { msg: 'Generating Estimate...', time: 800, progress: 95 },
+                { msg: 'Complete.', time: 500, progress: 100 }
+            ];
+
+            function animateValue(obj, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    obj.innerHTML = Math.floor(progress * (end - start) + start);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        obj.innerHTML = end;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+
+            btn.addEventListener('click', async () => {
+                if (isRunning) return;
+                isRunning = true;
+                
+                // Reset UI
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                btn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin" data-icon="sync">sync</span> PROCESSING`;
+                rulNumber.innerText = '--';
+                progressContainer.classList.remove('hidden');
+                progressFill.style.width = '0%';
+                predictedLine.classList.add('opacity-0');
+
+                // Run Steps
+                for (let i = 0; i < steps.length; i++) {
+                    const step = steps[i];
+                    statusText.innerText = step.msg;
+                    statusText.classList.add('text-primary');
+                    progressFill.style.width = `${step.progress}%`;
+                    
+                    await new Promise(r => setTimeout(r, step.time));
+                }
+
+                // Finalize
+                statusText.innerText = 'Prediction Complete';
+                statusText.classList.remove('text-primary');
+                statusText.classList.add('text-healthy');
+                
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                btn.innerHTML = `<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span> RERUN PREDICTION`;
+                
+                predictedLine.classList.remove('opacity-0');
+                
+                animateValue(rulNumber, 0, targetRul, 1500);
+                
+                setTimeout(() => {
+                    progressContainer.classList.add('hidden');
+                    progressFill.style.width = '0%';
+                }, 2000);
+                
+                isRunning = false;
+            });
+        });
+    </script>
+</body></html>

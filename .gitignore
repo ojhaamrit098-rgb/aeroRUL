@@ -1,0 +1,197 @@
+# ============================================
+
+# AeroRUL - Git Ignore
+
+# ============================================
+
+# -------------------------
+
+# Environment & Secrets
+
+# -------------------------
+
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+
+# Keep example environment files
+
+!.env.example
+
+# -------------------------
+
+# Node / React / Vite
+
+# -------------------------
+
+node_modules/
+frontend/node_modules/
+
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+frontend/dist/
+frontend/build/
+frontend/.vite/
+
+*.tsbuildinfo
+
+# -------------------------
+
+# Python
+
+# -------------------------
+
+**pycache**/
+*.py[cod]
+*.pyo
+*.pyd
+
+venv/
+.venv/
+env/
+ENV/
+
+backend/**pycache**/
+backend/venv/
+backend/.venv/
+
+# -------------------------
+
+# FastAPI / Server
+
+# -------------------------
+
+*.log
+logs/
+
+backend/.pytest_cache/
+.pytest_cache/
+
+# -------------------------
+
+# Build / Generated Files
+
+# -------------------------
+
+dist/
+build/
+out/
+
+*.tmp
+*.temp
+
+# -------------------------
+
+# Machine Learning
+
+# -------------------------
+
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.keras
+*.onnx
+*.pt
+*.pth
+
+# ML experiment outputs
+
+runs/
+wandb/
+mlruns/
+
+# -------------------------
+
+# Datasets & User Uploads
+
+# -------------------------
+
+data/
+datasets/
+uploads/
+
+*.csv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+
+# If you have small sample data that should be committed,
+
+# remove the corresponding extension above.
+
+# -------------------------
+
+# Jupyter Notebook
+
+# -------------------------
+
+.ipynb_checkpoints/
+
+# -------------------------
+
+# IDE / Editors
+
+# -------------------------
+
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -------------------------
+
+# Operating System
+
+# -------------------------
+
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+
+# -------------------------
+
+# Coverage / Testing
+
+# -------------------------
+
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.tox/
+.nox/
+
+# -------------------------
+
+# Temporary / Backup Files
+
+# -------------------------
+
+*.bak
+*.backup
+*~
+*.orig
+
+# -------------------------
+
+# Local Development Files
+
+# -------------------------
+
+*.local
+
+# Local database files
+
+*.db
+*.sqlite
+*.sqlite3
